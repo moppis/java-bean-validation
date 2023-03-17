@@ -1,9 +1,12 @@
 package org.acme.restaurant;
 
+import dev.personnummer.Personnummer;
+import dev.personnummer.PersonnummerException;
 import org.acme.Result;
 
 import javax.inject.Inject;
 import javax.validation.ConstraintViolationException;
+import javax.validation.Valid;
 import javax.ws.rs.*;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
@@ -17,10 +20,10 @@ public class RestaurantResource {
     @POST
     @Consumes(MediaType.APPLICATION_JSON)
     @Produces(MediaType.APPLICATION_JSON)
-    public Result makeReservation(Request request) {
+    public Result makeReservation(@Valid Request request) throws PersonnummerException {
 
         try {
-            restaurantService.createReservation(request.begin(), request.end(), request.customer());
+            restaurantService.createReservation(request.begin(), request.end(), Personnummer.parse(request.customer()));
 
             return new Result("Successfully made an reservation");
         } catch (ConstraintViolationException exception) {

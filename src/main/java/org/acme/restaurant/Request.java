@@ -1,7 +1,6 @@
 package org.acme.restaurant;
 
-import dev.personnummer.Personnummer;
-
+import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
 
-public record Request(LocalDateTime begin, LocalDateTime end, Personnummer customer) {}
+public record Request(LocalDateTime begin, LocalDateTime end, @NotBlank String customer) {}
